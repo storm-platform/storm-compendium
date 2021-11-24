@@ -1,0 +1,82 @@
+{
+  "mappings": {
+    "date_detection": false,
+    "numeric_detection": false,
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "access": {
+        "properties": {
+          "owned_by": {
+            "properties": {
+              "user": {
+                "type": "keyword"
+              }
+            }
+          },
+          "contributed_by": {
+            "properties": {
+              "user": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "metadata": {
+        "properties": {
+          "title": {
+            "type": "text"
+          },
+          "description": {
+            "type": "text"
+          },
+          "execution": {
+            "properties": {
+              "descriptor": {
+                "properties": {
+                  "uri": {
+                    "type": "text"
+                  },
+                  "name": {
+                    "type": "text"
+                  },
+                  "version": {
+                    "type": "text"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "data": {
+        "properties": {
+          "inputs": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "keyword"
+              }
+            }
+          },
+          "outputs": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "created": {
+        "type": "date"
+      },
+      "updated": {
+        "type": "date"
+      }
+    }
+  }
+}
