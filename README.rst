@@ -1,5 +1,5 @@
 ..
-    Copyright (C) 2021 Storm Project.
+    Copyright (C) 2021 Storm Compendium.
 
     storm-compendium is free software; you can redistribute it and/or modify
     it under the terms of the MIT License; see LICENSE file for more details.
@@ -8,21 +8,29 @@
  Compendium Manager module for the Storm Platform
 ==================================================
 
-.. image:: https://github.com/storm-platform/storm-compendia/workflows/CI/badge.svg
-        :target: https://github.com/storm-platform/storm-compendia/actions?query=workflow%3ACI
+.. image:: https://img.shields.io/badge/license-MIT-green
+        :target: https://github.com/storm-platform/storm-compendium/blob/master/LICENSE
+        :alt: Software License
 
-.. image:: https://img.shields.io/github/tag/storm-platform/storm-compendia.svg
-        :target: https://github.com/storm-platform/storm-compendia/releases
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+        :target: https://github.com/psf/black
 
-.. image:: https://img.shields.io/pypi/dm/storm-compendia.svg
-        :target: https://pypi.python.org/pypi/storm-compendia
+.. image:: https://img.shields.io/badge/lifecycle-maturing-blue.svg
+        :target: https://www.tidyverse.org/lifecycle/#maturing
+        :alt: Software Life Cycle
 
-.. image:: https://img.shields.io/github/license/storm-platform/storm-compendia.svg
-        :target: https://github.com/storm-platform/storm-compendia/blob/master/LICENSE
+.. image:: https://img.shields.io/pypi/dm/storm-compendium.svg
+        :target: https://pypi.python.org/pypi/storm-compendium
+
+.. image:: https://img.shields.io/github/tag/storm-platform/storm-compendium.svg
+        :target: https://github.com/storm-platform/storm-compendium/releases
+
+.. image:: https://img.shields.io/discord/689541907621085198?logo=discord&logoColor=ffffff&color=7389D8
+        :target: https://discord.com/channels/689541907621085198#
+        :alt: Join us at Discord
+
 
 Module that adds support for Compendium management in the Storm Platform.
 
-TODO: Please provide feature overview of module
-
-Further documentation is available on
-https://storm-compendia.readthedocs.io/
+- Free software: MIT license;
+- Documentation: https://storm-compendium.readthedocs.io/
