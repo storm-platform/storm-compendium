@@ -8,7 +8,7 @@
 from invenio_records_permissions.generators import SystemProcess, Disable
 from invenio_records_permissions.policies.records import RecordPermissionPolicy
 
-from storm_projects.projects.services.permissions import (
+from storm_project.project.services.permissions import (
     ResearchProjectOwners,
     ResearchProjectContributors,
 )

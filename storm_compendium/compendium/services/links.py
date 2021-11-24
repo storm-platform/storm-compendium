@@ -11,7 +11,7 @@ from flask import request
 from invenio_records_resources.services import Link, FileLink
 from invenio_records_resources.services.base.links import preprocess_vars
 
-from storm_projects import current_project
+from storm_project import current_project
 
 
 class CompendiumRecordLink(Link):

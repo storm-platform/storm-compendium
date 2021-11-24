@@ -8,7 +8,7 @@
 from copy import copy
 
 
-from storm_projects import current_project
+from storm_project import current_project
 
 from invenio_records.dictutils import dict_set
 from invenio_access.permissions import system_process
