@@ -18,24 +18,39 @@ tests_require = [
     "pytest-invenio>=1.4.0",
 ]
 
+invenio_db_version = ">=1.0.9,<2.0.0"
+invenio_search_version = ">=1.4.2,<2.0.0"
+
 extras_require = {
     "docs": [
         "Sphinx>=3,<4",
     ],
     "tests": tests_require,
+    # Elasticsearch
+    "elasticsearch7": [
+        f"invenio-search[elasticsearch7]{invenio_search_version}",
+    ],
+    # Databases
+    "mysql": [
+        f"invenio-db[mysql,versioning]{invenio_db_version}",
+    ],
+    "postgresql": [
+        f"invenio-db[postgresql,versioning]{invenio_db_version}",
+    ],
+    "sqlite": [
+        f"invenio-db[versioning]{invenio_db_version}",
+    ],
 }
 
-extras_require["all"] = []
-for reqs in extras_require.values():
-    extras_require["all"].extend(reqs)
-
-setup_requires = [
-    "Babel>=2.8",
-]
-
+setup_requires = []
 install_requires = [
-    "invenio-i18n>=1.2.0",
+    "invenio-drafts-resources>=0.14.0,<0.15.0",
+    "invenio-records-resources>=0.17.0,<0.18",
+    "storm-project @ git+https://github.com/storm-platform/storm-project",
 ]
+
+extras_require["all"] = [req for _, reqs in extras_require.items() for req in reqs]
+
 
 packages = find_packages()
 
@@ -50,7 +65,7 @@ setup(
     version=version,
     description=__doc__,
     long_description=readme + "\n\n" + history,
-    keywords="invenio TODO",
+    keywords=["Storm Platform", "Research Compendium", "Invenio module"],
     license="MIT",
     author="Felipe Menino Carlos",
     author_email="felipe.carlos@inpe.br",
