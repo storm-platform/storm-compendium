@@ -32,7 +32,7 @@
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "$ref": "local://records/definitions-v2.0.0.json#/agent"
+            "$ref": "local://project/definitions-v1.0.0.json#/agent"
           }
         },
         "contributed_by": {
@@ -40,7 +40,7 @@
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "$ref": "local://records/definitions-v2.0.0.json#/agent"
+            "$ref": "local://project/definitions-v1.0.0.json#/agent"
           }
         }
       }
@@ -154,7 +154,7 @@
         "entries": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "local://records/definitions-v2.0.0.json#/file"
+            "$ref": "local://project/definitions-v1.0.0.json#/file"
           }
         },
         "meta": {

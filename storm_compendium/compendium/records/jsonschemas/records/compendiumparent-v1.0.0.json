@@ -14,7 +14,7 @@
       "type": "string"
     },
     "pid": {
-      "$ref": "local://records/definitions-v1.0.0.json#/internal-pid"
+      "$ref": "local://definitions-v1.0.0.json#/internal-pid"
     },
     "project_id": {
       "description": "Associated project ID",
