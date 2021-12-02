@@ -10,4 +10,15 @@
 from .ext import StormCompendium
 from .version import __version__
 
-__all__ = ("__version__", "StormCompendium")
+from .proxies import current_compendium_extension, current_compendium_service
+
+
+__all__ = (
+    # Extension constructor
+    "StormCompendium",
+    # Proxies
+    "current_compendium_service",
+    "current_compendium_extension",
+    # Library metadata
+    "__version__",
+)
