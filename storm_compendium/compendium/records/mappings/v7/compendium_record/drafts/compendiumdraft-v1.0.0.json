@@ -6,19 +6,26 @@
       "id": {
         "type": "keyword"
       },
-      "access": {
+      "parent": {
         "properties": {
-          "owned_by": {
-            "properties": {
-              "user": {
-                "type": "keyword"
-              }
-            }
+          "id": {
+            "type": "keyword"
           },
-          "contributed_by": {
+          "access": {
             "properties": {
-              "user": {
-                "type": "keyword"
+              "owned_by": {
+                "properties": {
+                  "project": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "contributed_by": {
+                "properties": {
+                  "user": {
+                    "type": "keyword"
+                  }
+                }
               }
             }
           }

@@ -5,11 +5,10 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-from invenio_drafts_resources.records import Draft, Record
-
 from invenio_pidstore.models import PIDStatus
 from invenio_records.dumpers import ElasticsearchDumper
 
+from invenio_drafts_resources.records import Draft, Record
 from invenio_records_resources.records.api import FileRecord
 
 from invenio_records.systemfields import ModelField, DictField, ConstantField
@@ -21,9 +20,13 @@ from invenio_records_resources.records.systemfields import (
     IndexField,
 )
 
-from . import models
+import storm_compendium.compendium.records.models as models
+from storm_commons.records.systemfields.fields.access import RecordAccessField
 
-from .systemfields import HasDraftCheckField
+from storm_compendium.compendium.records.systemfields.access import CompendiumAccess
+from storm_compendium.compendium.records.systemfields.has_draftcheck import (
+    HasDraftCheckField,
+)
 
 
 class CompendiumParent(ParentRecordBase):
@@ -31,11 +34,9 @@ class CompendiumParent(ParentRecordBase):
 
     model_cls = models.CompendiumParentMetadata
 
-    project_id = ModelField(dump=True)
-    project = ModelField(dump=False)
+    access = RecordAccessField(access_obj_class=CompendiumAccess)
 
     dumper = ElasticsearchDumper()
-
     schema = ConstantField("$schema", "local://records/compendiumparent-v1.0.0.json")
 
 
@@ -64,8 +65,8 @@ class CommonFieldsMixin:
     #
     metadata = DictField("metadata")
 
-    is_published = PIDStatusCheckField(status=PIDStatus.REGISTERED, dump=True)
     pids = DictField("pids")
+    is_published = PIDStatusCheckField(status=PIDStatus.REGISTERED, dump=True)
 
     dumper = ElasticsearchDumper()
     schema = ConstantField("$schema", "local://records/compendiumrecord-v1.0.0.json")

@@ -11,11 +11,14 @@ from marshmallow import Schema, fields
 class AgentSchema(Schema):
     """Agent schema."""
 
-    user = fields.Integer(required=True)
+    user = fields.Integer(required=False)
+
+    project = fields.String(required=False)
 
 
 class CompendiumAccessSchema(Schema):
     """Access Schema."""
 
     owned_by = fields.List(fields.Nested(AgentSchema), required=False)
+
     contributed_by = fields.List(fields.Nested(AgentSchema), required=False)

@@ -8,34 +8,23 @@
 from marshmallow import Schema, fields, validate
 
 from marshmallow_utils.fields import SanitizedUnicode
-
-
-def _not_blank(**kwargs):
-    """Returns a non-blank validation rule.
-
-    See:
-        This code was extracted from: https://github.com/inveniosoftware/invenio-communities/blob/1a80d7312719507c4ebe504f00c1a2894f2161d8/invenio_communities/communities/schema.py#L21
-    """
-    max_ = kwargs.get("max", "")
-    return validate.Length(
-        error=f"Not empty string and less than {max_} characters allowed.",
-        min=1,
-        **kwargs,
-    )
+from storm_commons.schemas.validators import marshmallow_not_blank_field
 
 
 class FileDefinitionSchema(Schema):
     """File definition schema."""
 
-    key = SanitizedUnicode(required=True, validate=_not_blank())
+    key = SanitizedUnicode(required=True, validate=marshmallow_not_blank_field())
 
 
 class ExecutionDescriptorSchema(Schema):
     """Execution descriptor schema."""
 
-    uri = fields.Url(required=True, validate=_not_blank())
-    name = SanitizedUnicode(required=True, validate=_not_blank(max=16))
-    version = SanitizedUnicode(required=True, validate=_not_blank(max=16))
+    uri = fields.Url(required=True, validate=marshmallow_not_blank_field())
+    name = SanitizedUnicode(required=True, validate=marshmallow_not_blank_field(max=16))
+    version = SanitizedUnicode(
+        required=True, validate=marshmallow_not_blank_field(max=16)
+    )
 
 
 class ExecutionEnvironmentSchema(Schema):
@@ -62,7 +51,11 @@ class ExecutionMetadataSchema(Schema):
 class CompendiumMetadataSchema(Schema):
     """Compendium metadata schema."""
 
-    title = SanitizedUnicode(required=True, validate=_not_blank(max=64))
-    description = SanitizedUnicode(required=True, validate=_not_blank(max=2000))
+    title = SanitizedUnicode(
+        required=True, validate=marshmallow_not_blank_field(max=64)
+    )
+    description = SanitizedUnicode(
+        required=True, validate=marshmallow_not_blank_field(max=2000)
+    )
 
     execution = fields.Nested(ExecutionMetadataSchema, required=True)
