@@ -5,13 +5,10 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-from copy import deepcopy
-
 from flask import request
+
 from invenio_records_resources.services import Link, FileLink
 from invenio_records_resources.services.base.links import preprocess_vars
-
-from storm_project import current_project
 
 
 class CompendiumRecordLink(Link):
@@ -20,15 +17,16 @@ class CompendiumRecordLink(Link):
     @staticmethod
     def vars(record, vars):
         """Variables for the URI template."""
+
+        # project context: All endpoints is defined inside a project.
+        # To maintain API consistency, the requested project is
+        # used to filter the data and defined in the pagination links.
+        project_id = request.view_args.get("project_id")
+
         vars.update(
             {
                 "id": record.pid.pid_value,
-                "project_id": current_project.id,
-                "args": {
-                    "access_token": request.args.get(
-                        "access_token",
-                    )
-                },
+                "project_id": project_id,
             }
         )
 
@@ -38,15 +36,12 @@ class PaginationCompendiumRecordLink(Link):
 
     def expand(self, obj, context):
         """Expand the URI Template."""
-        context = {"project_id": current_project.id, **context}
 
-        vars = {}
-        vars.update(deepcopy(context))
-        self.vars(obj, vars)
-        if self._vars_func:
-            self._vars_func(obj, vars)
-        vars = preprocess_vars(vars)
-        return self._uritemplate.expand(**vars)
+        # project context: Loading the project context
+        project_id = request.view_args.get("project_id")
+
+        context = {**context, "project_id": project_id}
+        return super().expand(obj, context)
 
 
 class CompendiumFileLink(FileLink):
@@ -55,15 +50,14 @@ class CompendiumFileLink(FileLink):
     @staticmethod
     def vars(file_record, vars):
         """Variables for the URI template."""
+
+        # project context: Loading the project context
+        project_id = request.view_args.get("project_id")
+
         vars.update(
             {
                 "key": file_record.key,
-                "project_id": current_project.id,
-                "args": {
-                    "access_token": request.args.get(
-                        "access_token",
-                    )
-                },
+                "project_id": project_id,
             }
         )
 

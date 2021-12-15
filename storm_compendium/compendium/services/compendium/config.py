@@ -19,17 +19,24 @@ from invenio_drafts_resources.services.records.config import (
 from invenio_records_resources.services import ConditionalLink
 from invenio_drafts_resources.services.records.config import is_draft, is_record
 
-
-from ..permissions import CompendiumRecordPermissionPolicy
-from ..components import (
-    CompendiumRecordParentServiceComponent,
-    CompendiumAccessComponent,
-    MetadataComponent,
+from storm_compendium.compendium.services.security.permissions import (
+    CompendiumRecordPermissionPolicy,
 )
-from ..links import CompendiumRecordLink, compendium_pagination_links
+from storm_compendium.compendium.services.components import (
+    CompendiumMetadataComponent,
+    CompendiumParentAccessDefinitionComponent,
+)
 
-from ...records.api import CompendiumDraft, CompendiumRecord
-from ..schemas import CompendiumParentSchema, CompendiumRecordSchema
+from storm_compendium.compendium.services.links import (
+    CompendiumRecordLink,
+    compendium_pagination_links,
+)
+
+from storm_compendium.compendium.records.api import CompendiumRecord, CompendiumDraft
+from storm_compendium.compendium.services.schemas import (
+    CompendiumParentSchema,
+    CompendiumRecordSchema,
+)
 
 
 class CompendiumServiceConfig(RecordServiceConfig):
@@ -49,11 +56,11 @@ class CompendiumServiceConfig(RecordServiceConfig):
 
     # Components
     components = [
-        MetadataComponent,
-        CompendiumAccessComponent,
+        # Order matters!
+        CompendiumMetadataComponent,
+        CompendiumParentAccessDefinitionComponent,
         DraftFilesComponent,
         PIDComponent,
-        CompendiumRecordParentServiceComponent,
     ]
 
     links_item = {
@@ -93,7 +100,9 @@ class CompendiumServiceConfig(RecordServiceConfig):
         ),
     }
 
-    links_search = compendium_pagination_links("{+api}/pipeline/{id}/compendia{?args*}")
+    links_search = compendium_pagination_links(
+        "{+api}/projects/{project_id}/compendia{?args*}"
+    )
 
     links_search_drafts = compendium_pagination_links(
         "{+api}/user/projects/{project_id}/compendia{?args*}"
