@@ -5,13 +5,12 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-
 from marshmallow import fields
 from invenio_records_resources.resources import (
     FileResourceConfig as BaseFileResourceConfig,
 )
 
-from ...records.api import CompendiumDraft, CompendiumRecord
+from storm_compendium.compendium.records.api import CompendiumDraft, CompendiumRecord
 
 
 class CompendiumFileCommonResourceConfig(BaseFileResourceConfig):

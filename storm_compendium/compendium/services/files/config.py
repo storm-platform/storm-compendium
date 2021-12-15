@@ -5,13 +5,16 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-from ..links import (
+from storm_compendium.compendium.services.links import (
     CompendiumRecordLink,
     CompendiumFileLink,
 )
-from ..permissions import CompendiumRecordPermissionPolicy
-from ...records.api import CompendiumDraft, CompendiumRecord
-from ..components import CompendiumDraftFileDefinitionValidatorComponent
+
+from storm_compendium.compendium.services.security.permissions import (
+    CompendiumRecordPermissionPolicy,
+)
+
+from storm_compendium.compendium.records.api import CompendiumDraft, CompendiumRecord
 
 from invenio_drafts_resources.services.records.config import is_record
 from invenio_records_resources.services import FileServiceConfig, ConditionalLink
@@ -66,10 +69,6 @@ class FileServiceCommonConfig(FileServiceConfig):
 class FileCompendiumDraftServiceConfig(FileServiceCommonConfig):
     record_cls = CompendiumDraft
     permission_action_prefix = "draft_"
-
-    components = FileServiceCommonConfig.components + [
-        CompendiumDraftFileDefinitionValidatorComponent,
-    ]
 
 
 class FileCompendiumRecordServiceConfig(FileServiceCommonConfig):

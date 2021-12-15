@@ -5,13 +5,23 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-from invenio_records_permissions.generators import SystemProcess, Disable
-from invenio_records_permissions.policies.records import RecordPermissionPolicy
-
-from storm_project.project.services.permissions import (
-    ResearchProjectOwners,
-    ResearchProjectContributors,
+from invenio_records_permissions.generators import (
+    Disable,
+    SystemProcess,
+    AuthenticatedUser,
 )
+
+from storm_project.project.services.security.permissions import (
+    ResearchProjectOwner,
+    ResearchProjectContributor,
+)
+
+from storm_project.project.services.security.generators.context import (
+    UserInProject,
+    VersionedProjectRecordColaborator,
+)
+
+from invenio_records_permissions.policies.records import RecordPermissionPolicy
 
 
 class CompendiumRecordPermissionPolicy(RecordPermissionPolicy):
@@ -24,40 +34,41 @@ class CompendiumRecordPermissionPolicy(RecordPermissionPolicy):
     #
     # High-level permissions
     #
-    can_manage = [
-        ResearchProjectOwners(),
-        ResearchProjectContributors(),
-        SystemProcess(),
-    ]
+
+    # Content creators and managers
+    can_manage = [VersionedProjectRecordColaborator(), SystemProcess()]
+
+    # General users
+    can_use = can_manage + [UserInProject()]
 
     #
     # Records
     #
 
     # Allow record search
-    can_search = can_manage
+    can_search = can_use
 
     # Allow reading record metadata
-    can_read = can_manage
+    can_read = can_use
 
     # Allow submitting new record
-    can_create = can_manage
+    can_create = can_use
 
     # Allow reading the record files
-    can_read_files = can_manage
+    can_read_files = can_use
 
     #
     # Drafts
     #
 
     # Allow search drafts
-    can_search_drafts = can_manage  # ToDo: Add draft owner after metadata update
+    can_search_drafts = can_use
 
     # Allow reading draft metadata
-    can_read_draft = can_manage
+    can_read_draft = can_use
 
     # Allow reading draft files
-    can_draft_read_files = can_manage
+    can_draft_read_files = can_use
 
     # Allow updating draft metadata
     can_update_draft = can_manage
