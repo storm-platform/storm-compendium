@@ -26,27 +26,11 @@ extras_require = {
         "Sphinx>=3,<4",
     ],
     "tests": tests_require,
-    # Elasticsearch
-    "elasticsearch7": [
-        f"invenio-search[elasticsearch7]{invenio_search_version}",
-    ],
-    # Databases
-    "mysql": [
-        f"invenio-db[mysql,versioning]{invenio_db_version}",
-    ],
-    "postgresql": [
-        f"invenio-db[postgresql,versioning]{invenio_db_version}",
-    ],
-    "sqlite": [
-        f"invenio-db[versioning]{invenio_db_version}",
-    ],
 }
 
 setup_requires = []
 install_requires = [
-    "invenio-drafts-resources>=0.14.0,<0.15.0",
-    "invenio-records-resources>=0.17.0,<0.18",
-    "storm-project @ git+https://github.com/storm-platform/storm-project",
+    "storm-project @ git+https://github.com/storm-platform/storm-project@main",
 ]
 
 extras_require["all"] = [req for _, reqs in extras_require.items() for req in reqs]
