@@ -12,10 +12,10 @@ from werkzeug.local import LocalProxy
 current_compendium_extension = LocalProxy(
     lambda: current_app.extensions["storm-compendium"]
 )
-"""Helper proxy to get the current StormCompendium extension."""
+"""Helper proxy to get the current Storm Compendium extension."""
 
 
 current_compendium_service = LocalProxy(
     lambda: current_app.extensions["storm-compendium"].compendium_service
 )
-"""Helper proxy to get the current StormCompendium service extension."""
+"""Helper proxy to get the current Storm Compendium service extension."""

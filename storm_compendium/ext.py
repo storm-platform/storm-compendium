@@ -7,23 +7,27 @@
 
 """Module that adds support for Compendium management in the Storm Platform."""
 
-from . import config
-from .compendium.resources.compendium import (
+import storm_compendium.config as config
+
+from storm_compendium.compendium.resources.compendium import (
     CompendiumResource,
     CompendiumResourceConfig,
 )
-from .compendium.resources.files import (
+from storm_compendium.compendium.resources.files import (
     CompendiumFileResource,
     FileCompendiumRecordResourceConfig,
     FileCompendiumDraftResourceConfig,
 )
-from .compendium.services.compendium.config import CompendiumServiceConfig
-from .compendium.services.compendium.service import CompendiumService
-from .compendium.services.files.config import (
+from storm_compendium.compendium.services.compendium.config import (
+    CompendiumServiceConfig,
+)
+from storm_compendium.compendium.services.compendium.service import CompendiumService
+from storm_compendium.compendium.services.files.config import (
     FileCompendiumDraftServiceConfig,
     FileCompendiumRecordServiceConfig,
 )
-from .compendium.services.files.service import CompendiumFileService
+
+from storm_compendium.compendium.services.files.service import CompendiumFileService
 
 
 class StormCompendium(object):
