@@ -4,9 +4,9 @@
     storm-compendium is free software; you can redistribute it and/or modify
     it under the terms of the MIT License; see LICENSE file for more details.
 
-==================================================
- Compendium Manager module for the Storm Platform
-==================================================
+==================
+ Storm Compendium
+==================
 
 .. image:: https://img.shields.io/badge/license-MIT-green
         :target: https://github.com/storm-platform/storm-compendium/blob/master/LICENSE
