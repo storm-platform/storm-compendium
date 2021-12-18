@@ -5,8 +5,8 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-from storm_commons.services.components import (
-    RecordMetadataComponent,
+from storm_commons.services.components.metadata import RecordMetadataComponent
+from storm_commons.services.components.access import (
     VersionedRecordAccessDefinitionComponent,
 )
 
