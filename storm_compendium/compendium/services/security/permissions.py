@@ -5,22 +5,20 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
+from invenio_access import superuser_access
 from invenio_records_permissions.generators import (
     Disable,
     SystemProcess,
-    AuthenticatedUser,
 )
 
-from storm_project.project.services.security.permissions import (
-    ResearchProjectOwner,
-    ResearchProjectContributor,
+from storm_project.project.services.security.generators import (
+    IfProjectFinished,
+    ProjectRecordUser,
 )
 
-from storm_project.project.services.security.generators.context import (
-    UserInProject,
-    VersionedProjectRecordColaborator,
+from storm_compendium.compendium.services.security.generators import (
+    ProjectCompendiumCollaborator,
 )
-
 from invenio_records_permissions.policies.records import RecordPermissionPolicy
 
 
@@ -36,10 +34,19 @@ class CompendiumRecordPermissionPolicy(RecordPermissionPolicy):
     #
 
     # Content creators and managers
-    can_manage = [VersionedProjectRecordColaborator(), SystemProcess()]
+    can_colaborate = [ProjectCompendiumCollaborator(), SystemProcess()]
 
     # General users
-    can_use = can_manage + [UserInProject()]
+    can_use = can_colaborate + [ProjectRecordUser()]
+
+    # Management requirements
+    # if finished, only the system admin can manage.
+    can_manage = [
+        IfProjectFinished(
+            then_=[superuser_access],
+            else_=can_colaborate,
+        )
+    ]
 
     #
     # Records
@@ -52,7 +59,12 @@ class CompendiumRecordPermissionPolicy(RecordPermissionPolicy):
     can_read = can_use
 
     # Allow submitting new record
-    can_create = can_use
+    can_create = [
+        IfProjectFinished(
+            then_=[superuser_access],
+            else_=can_use,
+        )
+    ]
 
     # Allow reading the record files
     can_read_files = can_use
