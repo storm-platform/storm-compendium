@@ -5,19 +5,17 @@
 # storm-compendium is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-from storm_compendium.compendium.services.links import (
-    CompendiumRecordLink,
-    CompendiumFileLink,
-)
-
-from storm_compendium.compendium.services.security.permissions import (
-    CompendiumRecordPermissionPolicy,
+from invenio_drafts_resources.services.records.config import is_record
+from invenio_records_resources.services import FileServiceConfig, ConditionalLink
+from storm_project.project.services.links import (
+    ProjectContextFileLink,
+    ProjectContextLink,
 )
 
 from storm_compendium.compendium.records.api import CompendiumDraft, CompendiumRecord
-
-from invenio_drafts_resources.services.records.config import is_record
-from invenio_records_resources.services import FileServiceConfig, ConditionalLink
+from storm_compendium.compendium.services.security.permissions import (
+    CompendiumRecordPermissionPolicy,
+)
 
 
 def file_record_is_draft(file, ctx):
@@ -31,10 +29,10 @@ class FileServiceCommonConfig(FileServiceConfig):
     file_links_list = {
         "self": ConditionalLink(
             cond=is_record,
-            if_=CompendiumRecordLink(
+            if_=ProjectContextLink(
                 "{+api}/projects/{project_id}/compendia/{id}/files{?args*}"
             ),
-            else_=CompendiumRecordLink(
+            else_=ProjectContextLink(
                 "{+api}/projects/{project_id}/compendia/{id}/draft/files{?args*}"
             ),
         ),
@@ -43,23 +41,23 @@ class FileServiceCommonConfig(FileServiceConfig):
     file_links_item = {
         "self": ConditionalLink(
             cond=file_record_is_draft,
-            if_=CompendiumFileLink(
+            if_=ProjectContextFileLink(
                 "{+api}/projects/{project_id}/compendia/{id}/draft/files{?args*}"
             ),
-            else_=CompendiumFileLink(
+            else_=ProjectContextFileLink(
                 "{+api}/projects/{project_id}/compendia/{id}/files{?args*}"
             ),
         ),
         "content": ConditionalLink(
             cond=file_record_is_draft,
-            if_=CompendiumFileLink(
+            if_=ProjectContextFileLink(
                 "{+api}/projects/{project_id}/compendia/{id}/draft/files/{key}/content{?args*}"
             ),
-            else_=CompendiumFileLink(
+            else_=ProjectContextFileLink(
                 "{+api}/projects/{project_id}/compendia/{id}/files/{key}/content{?args*}"
             ),
         ),
-        "commit": CompendiumFileLink(
+        "commit": ProjectContextFileLink(
             "{+api}/projects/{project_id}/compendia/{id}/draft/files/{key}/commit{?args*}",
             when=file_record_is_draft,
         ),

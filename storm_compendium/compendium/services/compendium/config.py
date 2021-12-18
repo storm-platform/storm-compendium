@@ -9,33 +9,29 @@ from invenio_drafts_resources.services.records.components import (
     DraftFilesComponent,
     PIDComponent,
 )
-
 from invenio_drafts_resources.services.records.config import (
     RecordServiceConfig,
     SearchDraftsOptions,
     SearchOptions,
 )
-
-from invenio_records_resources.services import ConditionalLink
 from invenio_drafts_resources.services.records.config import is_draft, is_record
-
-from storm_compendium.compendium.services.security.permissions import (
-    CompendiumRecordPermissionPolicy,
+from invenio_records_resources.services import ConditionalLink
+from storm_project.project.services.links import (
+    ProjectContextLink,
+    project_context_pagination_links,
 )
+
+from storm_compendium.compendium.records.api import CompendiumRecord, CompendiumDraft
 from storm_compendium.compendium.services.components import (
     CompendiumMetadataComponent,
     CompendiumParentAccessDefinitionComponent,
 )
-
-from storm_compendium.compendium.services.links import (
-    CompendiumRecordLink,
-    compendium_pagination_links,
-)
-
-from storm_compendium.compendium.records.api import CompendiumRecord, CompendiumDraft
 from storm_compendium.compendium.services.schemas import (
     CompendiumParentSchema,
     CompendiumRecordSchema,
+)
+from storm_compendium.compendium.services.security.permissions import (
+    CompendiumRecordPermissionPolicy,
 )
 
 
@@ -66,49 +62,49 @@ class CompendiumServiceConfig(RecordServiceConfig):
     links_item = {
         "self": ConditionalLink(
             cond=is_record,
-            if_=CompendiumRecordLink(
+            if_=ProjectContextLink(
                 "{+api}/projects/{project_id}/compendia/{id}{?args*}"
             ),
-            else_=CompendiumRecordLink(
+            else_=ProjectContextLink(
                 "{+api}/projects/{project_id}/compendia/{id}/draft{?args*}"
             ),
         ),
-        "latest": CompendiumRecordLink(
+        "latest": ProjectContextLink(
             "{+api}/projects/{project_id}/compendia/{id}/versions/latest{?args*}"
         ),
-        "draft": CompendiumRecordLink(
+        "draft": ProjectContextLink(
             "{+api}/projects/{project_id}/compendia/{id}/draft{?args*}", when=is_record
         ),
-        "compendium": CompendiumRecordLink(
+        "compendium": ProjectContextLink(
             "{+api}/projects/{project_id}/compendia/{id}{?args*}", when=is_draft
         ),
-        "publish": CompendiumRecordLink(
+        "publish": ProjectContextLink(
             "{+api}/projects/{project_id}/compendia/{id}/draft/actions/publish{?args*}",
             when=is_draft,
         ),
         "files": ConditionalLink(
             cond=is_record,
-            if_=CompendiumRecordLink(
+            if_=ProjectContextLink(
                 "{+api}/projects/{project_id}/compendia/{id}/files{?args*}"
             ),
-            else_=CompendiumRecordLink(
+            else_=ProjectContextLink(
                 "{+api}/projects/{project_id}/compendia/{id}/draft/files{?args*}"
             ),
         ),
-        "versions": CompendiumRecordLink(
+        "versions": ProjectContextLink(
             "{+api}/projects/{project_id}/compendia/{id}/versions{?args*}"
         ),
     }
 
-    links_search = compendium_pagination_links(
+    links_search = project_context_pagination_links(
         "{+api}/projects/{project_id}/compendia{?args*}"
     )
 
-    links_search_drafts = compendium_pagination_links(
+    links_search_drafts = project_context_pagination_links(
         "{+api}/user/projects/{project_id}/compendia{?args*}"
     )
 
-    links_search_versions = compendium_pagination_links(
+    links_search_versions = project_context_pagination_links(
         "{+api}/projects/{project_id}/compendia/{id}/versions{?args*}"
     )
 
