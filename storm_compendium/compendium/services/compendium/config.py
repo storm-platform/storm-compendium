@@ -63,20 +63,18 @@ class CompendiumServiceConfig(RecordServiceConfig):
         "self": ConditionalLink(
             cond=is_record,
             if_=ProjectContextLink(
-                "{+api}/projects/{project_id}/compendia/{id}{?args*}"
+                "{+api}/projects/{project_id}/compendia/{id}"
             ),
             else_=ProjectContextLink(
-                "{+api}/projects/{project_id}/compendia/{id}/draft{?args*}"
+                "{+api}/projects/{project_id}/compendia/{id}/draft"
             ),
         ),
         "latest": ProjectContextLink(
-            "{+api}/projects/{project_id}/compendia/{id}/versions/latest{?args*}"
+            "{+api}/projects/{project_id}/compendia/{id}/versions/latest{?args*}",
+            when=is_record,
         ),
         "draft": ProjectContextLink(
             "{+api}/projects/{project_id}/compendia/{id}/draft{?args*}", when=is_record
-        ),
-        "compendium": ProjectContextLink(
-            "{+api}/projects/{project_id}/compendia/{id}{?args*}", when=is_draft
         ),
         "publish": ProjectContextLink(
             "{+api}/projects/{project_id}/compendia/{id}/draft/actions/publish{?args*}",
@@ -92,7 +90,8 @@ class CompendiumServiceConfig(RecordServiceConfig):
             ),
         ),
         "versions": ProjectContextLink(
-            "{+api}/projects/{project_id}/compendia/{id}/versions{?args*}"
+            "{+api}/projects/{project_id}/compendia/{id}/versions{?args*}",
+            when=is_record,
         ),
     }
 

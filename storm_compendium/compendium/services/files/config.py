@@ -30,10 +30,10 @@ class FileServiceCommonConfig(FileServiceConfig):
         "self": ConditionalLink(
             cond=is_record,
             if_=ProjectContextLink(
-                "{+api}/projects/{project_id}/compendia/{id}/files{?args*}"
+                "{+api}/projects/{project_id}/compendia/{id}/files"
             ),
             else_=ProjectContextLink(
-                "{+api}/projects/{project_id}/compendia/{id}/draft/files{?args*}"
+                "{+api}/projects/{project_id}/compendia/{id}/draft/files"
             ),
         ),
     }
@@ -42,10 +42,10 @@ class FileServiceCommonConfig(FileServiceConfig):
         "self": ConditionalLink(
             cond=file_record_is_draft,
             if_=ProjectContextFileLink(
-                "{+api}/projects/{project_id}/compendia/{id}/draft/files{?args*}"
+                "{+api}/projects/{project_id}/compendia/{id}/draft/files/{key}"
             ),
             else_=ProjectContextFileLink(
-                "{+api}/projects/{project_id}/compendia/{id}/files{?args*}"
+                "{+api}/projects/{project_id}/compendia/{id}/files/{key}"
             ),
         ),
         "content": ConditionalLink(
